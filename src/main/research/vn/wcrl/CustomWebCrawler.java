@@ -86,11 +86,40 @@ public class CustomWebCrawler extends WebCrawler
                 
                 if (content != null)
                 {
-                    Whitelist whiteList = Whitelist.relaxed();
-                    whiteList.addTags("div", "span");
-                    whiteList.addAttributes("div", "id", "class");
-                    whiteList.addAttributes("span", "class");
-                    whiteList.addAttributes("h1", "id", "class", "itemprop");
+                    Whitelist whiteList = new Whitelist();
+                    whiteList.addTags(new String[] {"b", "blockquote", "caption",
+                                                    "cite", "code", "col", "colgroup", "dd", "div",
+                                                    "dl", "dt", "em", "h1", "h2", "h3", "h4", "h5",
+                                                    "h6", "img", "li", "ol", "p", "pre", "q",
+                                                    "small", "strike", "strong", "sub", "sup",
+                                                    "table", "tbody", "td", "tfoot", "th", "thead",
+                                                    "tr", "u", "ul"})
+//                            .addAttributes("a", new String[] {"href", "title"})
+                            .addAttributes("blockquote", new String[] {"cite"})
+                            .addAttributes("col", new String[] {"span", "width"})
+                            .addAttributes("colgroup", new String[] {"span", "width"})
+                            .addAttributes("img",
+                                           new String[] {"align", "alt", "height", "src", "title",
+                                                         "width"})
+                            .addAttributes("ol", new String[] {"start", "type"})
+                            .addAttributes("q", new String[] {"cite"})
+                            .addAttributes("table", new String[] {"summary", "width"})
+                            .addAttributes("td",
+                                           new String[] {"abbr", "axis", "colspan", "rowspan",
+                                                         "width"})
+                            .addAttributes("th",
+                                           new String[] {"abbr", "axis", "colspan", "rowspan",
+                                                         "scope", "width"})
+                            .addAttributes("ul", new String[] {"type"})
+                            .addProtocols("a",
+                                          "href",
+                                          new String[] {"ftp", "http", "https", "mailto"})
+                            .addProtocols("blockquote", "cite", new String[] {"http", "https"})
+                            .addProtocols("img", "src", new String[] {"http", "https"})
+                            .addProtocols("q", "cite", new String[] {"http", "https"});
+                    whiteList.addTags("div")
+                            .addAttributes("div", "id", "class")
+                            .addAttributes("h1", "id", "class", "itemprop");
 
                     content = Jsoup.clean(html, whiteList);
                     
