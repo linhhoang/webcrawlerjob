@@ -87,10 +87,10 @@ public class CustomWebCrawler extends WebCrawler
                 if (content != null)
                 {
                     Whitelist whiteList = new Whitelist();
-                    whiteList.addTags(new String[] {"b", "blockquote", "caption",
+                    whiteList.addTags(new String[] {"blockquote", "caption",
                                                     "cite", "code", "col", "colgroup", "dd", "div",
                                                     "dl", "dt", "em", "h1", "h2", "h3", "h4", "h5",
-                                                    "h6", "img", "li", "ol", "p", "pre", "q",
+                                                    "h6", "img", "li", "ol", "pre", "q",
                                                     "small", "strike", "strong", "sub", "sup",
                                                     "table", "tbody", "td", "tfoot", "th", "thead",
                                                     "tr", "u", "ul"})

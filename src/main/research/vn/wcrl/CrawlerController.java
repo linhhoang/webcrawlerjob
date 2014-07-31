@@ -32,7 +32,7 @@ public class CrawlerController
     private static final Logger log = Logger.getLogger(CrawlerController.class);
     
     /** D_TEMP_CRAWLER */
-    private static final int POLITENESS_DELAY = 200;
+    private static final int POLITENESS_DELAY = 500;
     private static final int MAX_DEPTH_OF_CRAWLING = 3;
 
     /**
