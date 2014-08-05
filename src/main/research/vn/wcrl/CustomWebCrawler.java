@@ -22,9 +22,6 @@ import edu.uci.ics.crawler4j.url.WebURL;
 /*
  * CustomeWebCrawler.java
  *
- * Copyright by Orell Füssli Wirtschaftsinformationen AG
- * Zürich
- * All rights reserved.
  */
 
 /**

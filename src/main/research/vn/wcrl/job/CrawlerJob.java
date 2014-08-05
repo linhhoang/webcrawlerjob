@@ -1,9 +1,6 @@
 /*
  * CrawlerJob.java
  *
- * Copyright by Orell Füssli Wirtschaftsinformationen AG
- * Zürich
- * All rights reserved.
  */
 package research.vn.wcrl.job;
 
@@ -28,7 +25,6 @@ public class CrawlerJob implements Job
     /**
      * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
      */
-    @Override
     public void execute(JobExecutionContext context) throws JobExecutionException
     {
         log.info("excute crawl job.");

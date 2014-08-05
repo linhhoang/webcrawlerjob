@@ -1,9 +1,6 @@
 /*
  * Constants.java
  *
- * Copyright by Orell Füssli Wirtschaftsinformationen AG
- * Zürich
- * All rights reserved.
  */
 package research.vn.wcrl.utils;
 

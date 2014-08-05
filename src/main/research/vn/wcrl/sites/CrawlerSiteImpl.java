@@ -1,9 +1,6 @@
 /*
  * CrawlerSiteVNW.java
  *
- * Copyright by Orell Füssli Wirtschaftsinformationen AG
- * Zürich
- * All rights reserved.
  */
 package research.vn.wcrl.sites;
 
@@ -13,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 
 import research.vn.wcrl.bo.JobInfo;
-import research.vn.wcrl.utils.FileUtils;
 import research.vn.wcrl.utils.HtmlParseUtils;
 
 /**
@@ -30,7 +26,6 @@ public class CrawlerSiteImpl implements CrawlerSite
     /**
      * @see research.vn.wcrl.sites.CrawlerSite#parse(org.jsoup.nodes.Document, String, String)
      */
-    @Override
     public JobInfo parse(Document document, String siteCode, String filePath)
     {
         
@@ -38,9 +33,8 @@ public class CrawlerSiteImpl implements CrawlerSite
     }
 
     /**
-     * @see research.vn.wcrl.sites.CrawlerSite#preprocessing(org.jsoup.nodes.Document, java.lang.String, java.lang.String)
+     * @see research.vn.wcrl.sites.CrawlerSite#preprocessing(org.jsoup.nodes.Document, java.lang.String)
      */
-    @Override
     public String preprocessing(Document document, String siteCode)
     {
         try
