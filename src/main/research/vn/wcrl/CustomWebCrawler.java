@@ -1,16 +1,24 @@
 package research.vn.wcrl;
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
+import research.vn.careerservice.service.IReferenceService;
+import research.vn.careerservice.service.ISourceService;
+import research.vn.careerservice.utils.ConfigurationUtils;
+import research.vn.careerservice.vo.Reference;
+import research.vn.careerservice.vo.Source;
 import research.vn.wcrl.sites.CrawlerSite;
 import research.vn.wcrl.sites.CrawlerSiteFactory;
+import research.vn.wcrl.utils.ContextLoader;
 import research.vn.wcrl.utils.FileUtils;
 import research.vn.wcrl.utils.PropertyUtils;
 import edu.uci.ics.crawler4j.crawler.Page;
@@ -39,6 +47,9 @@ public class CustomWebCrawler extends WebCrawler
                                                            + "|png|tiff?|mid|mp2|mp3|mp4"
                                                            + "|wav|avi|mov|mpeg|ram|m4v|pdf"
                                                            + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+    
+    private IReferenceService referenceService = (IReferenceService)ContextLoader.getInstance().getBean("referenceService");
+    private ISourceService sourceService = (ISourceService)ContextLoader.getInstance().getBean("sourceService");
 
     /**
      * @see edu.uci.ics.crawler4j.crawler.WebCrawler#shouldVisit(edu.uci.ics.crawler4j.url.WebURL)
@@ -60,7 +71,13 @@ public class CustomWebCrawler extends WebCrawler
     {
         String url = page.getWebURL().getURL();
         log.info("visited URL: " + url);
-
+        
+        if (isExistUrl(url))
+        {
+            logger.info("'" + url + "' is exist already.");
+            return;
+        }
+        
         if (page.getParseData() instanceof HtmlParseData)
         {
             HtmlParseData htmlParseData = (HtmlParseData)page.getParseData();
@@ -122,6 +139,8 @@ public class CustomWebCrawler extends WebCrawler
                     
                     // write text file
                     FileUtils.getInstance().writeTextFile(content, filePath, "html");
+                    
+                    writeToReference(url, siteCode);
                 }
             }
             
@@ -132,6 +151,59 @@ public class CustomWebCrawler extends WebCrawler
 
     }
     
+
+    /**
+     * write url to reference
+     *
+     * @param url
+     * @param siteCode 
+     */
+    private void writeToReference(String url, String siteCode)
+    {
+        try
+        {
+            Source source = sourceService.selectById(siteCode);
+            
+            if (source == null)
+            {
+                logger.error("Cannot read Source of '" + siteCode + "'");
+                return;
+            }
+            Reference reference = new Reference();
+            reference.setUrl(url);
+            reference.setCreator(0L);
+            reference.setCreateDate(new Date());
+            reference.setSourceKey(source.getKey());
+            reference.setDeleteFlg(false);
+            referenceService.insert(reference);
+        } catch (PersistenceException e)
+        {
+            logger.error(e.getMessage());
+        }
+        
+    }
+
+
+    /**
+     * Method description
+     *
+     * @param url
+     * @return isExist
+     */
+    private boolean isExistUrl(String url)
+    {
+        try
+        {
+            Reference reference = referenceService.selectByUrl(url);
+            return reference != null;
+        } catch (PersistenceException e)
+        {
+            logger.error(e.getMessage());
+        }
+        
+        return false;
+    }
+
 
     /**
      * get filePath

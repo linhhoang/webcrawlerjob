@@ -59,6 +59,7 @@ public class CrawlerController
             CrawlController crawlController = new CrawlController(crawlConfig,
                                                                   pageFetcher, robotstxtServer);
             
+            
             crawlController.addSeed(PropertyUtils.getInstance().getValue("fetchSiteSeed.1"));
             crawlController.start(CustomWebCrawler.class, numberOfCrawlers);
             log.info("The crawler thead started.");
