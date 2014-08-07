@@ -21,6 +21,7 @@ import research.vn.wcrl.sites.CrawlerSiteFactory;
 import research.vn.wcrl.utils.ContextLoader;
 import research.vn.wcrl.utils.FileUtils;
 import research.vn.wcrl.utils.PropertyUtils;
+import research.vn.wcrl.utils.RandomKeyUtils;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -92,7 +93,6 @@ public class CustomWebCrawler extends WebCrawler
             
             String siteCode = PropertyUtils.getInstance().getValue("fetchSiteCode");
             CrawlerSite crawlerSite = CrawlerSiteFactory.createCrawlerSite();
-            String filePath = getFilePath(siteCode, url);
             
             if (crawlerSite != null)
             {
@@ -136,11 +136,13 @@ public class CustomWebCrawler extends WebCrawler
                             .addAttributes("h1", "id", "class", "itemprop");
 
                     content = Jsoup.clean(html, whiteList);
+                    String randomKey = RandomKeyUtils.getInstance().random(8);
+                    String filePath = getFilePath(randomKey, siteCode, url);
                     
                     // write text file
                     FileUtils.getInstance().writeTextFile(content, filePath, "html");
                     
-                    writeToReference(url, siteCode);
+                    writeToReference(url, siteCode, randomKey);
                 }
             }
             
@@ -157,8 +159,9 @@ public class CustomWebCrawler extends WebCrawler
      *
      * @param url
      * @param siteCode 
+     * @param randomKey 
      */
-    private void writeToReference(String url, String siteCode)
+    private void writeToReference(String url, String siteCode, String randomKey)
     {
         try
         {
@@ -171,8 +174,10 @@ public class CustomWebCrawler extends WebCrawler
             }
             Reference reference = new Reference();
             reference.setUrl(url);
+            reference.setId(randomKey);
             reference.setCreator(0L);
             reference.setCreateDate(new Date());
+            reference.setExtractedFlg(false);
             reference.setSourceKey(source.getKey());
             reference.setDeleteFlg(false);
             referenceService.insert(reference);
@@ -210,9 +215,10 @@ public class CustomWebCrawler extends WebCrawler
      *
      * @param siteCode 
      * @param url
+     * @param randomKey
      * @return String
      */
-    public String getFilePath(String siteCode, String url)
+    public String getFilePath(String randomKey, String siteCode, String url)
     {
         String fileName = "unname";
         
@@ -236,7 +242,7 @@ public class CustomWebCrawler extends WebCrawler
         String htmlOutputFolderPath = String.format(htmlOutputFolderConfig, siteCode);
         FileUtils.getInstance().createFolder(htmlOutputFolderPath);
         
-        return htmlOutputFolderPath + File.separator + siteCode + "_" + fileName;
+        return htmlOutputFolderPath + File.separator + siteCode + "_" + randomKey + "_" + fileName;
     }
     
 
