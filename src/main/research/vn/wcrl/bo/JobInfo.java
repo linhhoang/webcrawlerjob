@@ -6,11 +6,12 @@ package research.vn.wcrl.bo;
 
 import java.io.Serializable;
 
+
 /**
  * The class of job information.
- *
+ * 
  * @author hcnlinh
- * @version $Revision:  $
+ * @version $Revision: $
  */
 public class JobInfo implements Serializable
 {
@@ -18,131 +19,439 @@ public class JobInfo implements Serializable
     private static final long serialVersionUID = 1L;
 
     private String jobTitle;
-    
+
     private String companyName;
-    
-    private String companyAddress;
-    
+
     private String jobDescription;
-    
+
     private String jobRequirement;
     
+    private String jobCategory;
+
+    private Integer quantity;
+
+    private String position;
+
+    private String salary;
+
+    private String location;
+
+    private String workingType;
+    
+    private String workingTime;
+
+    private String contactString;
+
+    private String postDate;
+
+    private String expireDate;
+
+    private String dossierLanguage;
+
+    private String companyAddress;
+
+    private String companyDescription;
+
+
     /**
      * Gets the jobTitle
-     *
+     * 
      * @return Returns the jobTitle
      */
     public String getJobTitle()
     {
         return jobTitle;
     }
+
+
     /**
      * Sets the jobTitle
-     *
+     * 
      * @param jobTitle The jobTitle to set
      */
     public void setJobTitle(String jobTitle)
     {
         this.jobTitle = jobTitle;
     }
+
+
     /**
      * Gets the companyName
-     *
+     * 
      * @return Returns the companyName
      */
     public String getCompanyName()
     {
         return companyName;
     }
+
+
     /**
      * Sets the companyName
-     *
+     * 
      * @param companyName The companyName to set
      */
     public void setCompanyName(String companyName)
     {
         this.companyName = companyName;
     }
-    /**
-     * Gets the companyAddress
-     *
-     * @return Returns the companyAddress
-     */
-    public String getCompanyAddress()
-    {
-        return companyAddress;
-    }
-    /**
-     * Sets the companyAddress
-     *
-     * @param companyAddress The companyAddress to set
-     */
-    public void setCompanyAddress(String companyAddress)
-    {
-        this.companyAddress = companyAddress;
-    }
+
+
     /**
      * Gets the jobDescription
-     *
+     * 
      * @return Returns the jobDescription
      */
     public String getJobDescription()
     {
         return jobDescription;
     }
+
+
     /**
      * Sets the jobDescription
-     *
+     * 
      * @param jobDescription The jobDescription to set
      */
     public void setJobDescription(String jobDescription)
     {
         this.jobDescription = jobDescription;
     }
+
+
     /**
      * Gets the jobRequirement
-     *
+     * 
      * @return Returns the jobRequirement
      */
     public String getJobRequirement()
     {
         return jobRequirement;
     }
+
+
     /**
      * Sets the jobRequirement
-     *
+     * 
      * @param jobRequirement The jobRequirement to set
      */
     public void setJobRequirement(String jobRequirement)
     {
         this.jobRequirement = jobRequirement;
     }
-    
+
+
+    /**
+     * Gets the quantity
+     * 
+     * @return Returns the quantity
+     */
+    public Integer getQuantity()
+    {
+        return quantity;
+    }
+
+
+    /**
+     * Sets the quantity
+     * 
+     * @param quantity The quantity to set
+     */
+    public void setQuantity(Integer quantity)
+    {
+        this.quantity = quantity;
+    }
+
+
+    /**
+     * Gets the position
+     * 
+     * @return Returns the position
+     */
+    public String getPosition()
+    {
+        return position;
+    }
+
+
+    /**
+     * Sets the position
+     * 
+     * @param position The position to set
+     */
+    public void setPosition(String position)
+    {
+        this.position = position;
+    }
+
+
+    /**
+     * Gets the salary
+     * 
+     * @return Returns the salary
+     */
+    public String getSalary()
+    {
+        return salary;
+    }
+
+
+    /**
+     * Sets the salary
+     * 
+     * @param salary The salary to set
+     */
+    public void setSalary(String salary)
+    {
+        this.salary = salary;
+    }
+
+
+    /**
+     * Gets the location
+     * 
+     * @return Returns the location
+     */
+    public String getLocation()
+    {
+        return location;
+    }
+
+
+    /**
+     * Sets the location
+     * 
+     * @param location The location to set
+     */
+    public void setLocation(String location)
+    {
+        this.location = location;
+    }
+
+
+    /**
+     * Gets the workingType
+     * 
+     * @return Returns the workingType
+     */
+    public String getWorkingType()
+    {
+        return workingType;
+    }
+
+
+    /**
+     * Sets the workingType
+     * 
+     * @param workingType The workingType to set
+     */
+    public void setWorkingType(String workingType)
+    {
+        this.workingType = workingType;
+    }
+
+
+    /**
+     * Gets the contactString
+     * 
+     * @return Returns the contactString
+     */
+    public String getContactString()
+    {
+        return contactString;
+    }
+
+
+    /**
+     * Sets the contactString
+     * 
+     * @param contactString The contactString to set
+     */
+    public void setContactString(String contactString)
+    {
+        this.contactString = contactString;
+    }
+
+
+    /**
+     * Gets the postDate
+     * 
+     * @return Returns the postDate
+     */
+    public String getPostDate()
+    {
+        return postDate;
+    }
+
+
+    /**
+     * Sets the postDate
+     * 
+     * @param postDate The postDate to set
+     */
+    public void setPostDate(String postDate)
+    {
+        this.postDate = postDate;
+    }
+
+
+    /**
+     * Gets the expireDate
+     * 
+     * @return Returns the expireDate
+     */
+    public String getExpireDate()
+    {
+        return expireDate;
+    }
+
+
+    /**
+     * Sets the expireDate
+     * 
+     * @param expireDate The expireDate to set
+     */
+    public void setExpireDate(String expireDate)
+    {
+        this.expireDate = expireDate;
+    }
+
+
+    /**
+     * Gets the dossierLanguage
+     * 
+     * @return Returns the dossierLanguage
+     */
+    public String getDossierLanguage()
+    {
+        return dossierLanguage;
+    }
+
+
+    /**
+     * Sets the dossierLanguage
+     * 
+     * @param dossierLanguage The dossierLanguage to set
+     */
+    public void setDossierLanguage(String dossierLanguage)
+    {
+        this.dossierLanguage = dossierLanguage;
+    }
+
+
+    /**
+     * Gets the companyAddress
+     * 
+     * @return Returns the companyAddress
+     */
+    public String getCompanyAddress()
+    {
+        return companyAddress;
+    }
+
+
+    /**
+     * Sets the companyAddress
+     * 
+     * @param companyAddress The companyAddress to set
+     */
+    public void setCompanyAddress(String companyAddress)
+    {
+        this.companyAddress = companyAddress;
+    }
+
+
+    /**
+     * Gets the companyDescription
+     * 
+     * @return Returns the companyDescription
+     */
+    public String getCompanyDescription()
+    {
+        return companyDescription;
+    }
+
+
+    /**
+     * Sets the companyDescription
+     * 
+     * @param companyDescription The companyDescription to set
+     */
+    public void setCompanyDescription(String companyDescription)
+    {
+        this.companyDescription = companyDescription;
+    }
+
+
+    /**
+     * Sets the workingTime
+     *
+     * @param workingTime The workingTime to set
+     */
+    public void setWorkingTime(String workingTime)
+    {
+        this.workingTime = workingTime;
+    }
+
+
+    /**
+     * Gets the workingTime
+     *
+     * @return Returns the workingTime
+     */
+    public String getWorkingTime()
+    {
+        return workingTime;
+    }
+
+
+    /**
+     * Sets the jobCategory
+     *
+     * @param jobCategory The jobCategory to set
+     */
+    public void setJobCategory(String jobCategory)
+    {
+        this.jobCategory = jobCategory;
+    }
+
+
+    /**
+     * Gets the jobCategory
+     *
+     * @return Returns the jobCategory
+     */
+    public String getJobCategory()
+    {
+        return jobCategory;
+    }
+
+
     /**
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
-        final StringBuffer stAttr = new StringBuffer("': '");
-        final StringBuffer edAttr = new StringBuffer("'");
-        final StringBuffer inAttr = new StringBuffer("  ");
-        final StringBuffer nl = new StringBuffer("\n");
+    public String toString() {
+        StringBuilder builder = new StringBuilder(this.getClass().getName());
+        
+        // custome field
+        builder.append(", jobTitle=").append(jobTitle);
+        builder.append(", position=").append(position);
+        builder.append(", salary=").append(salary);
+        builder.append(", location=").append(location);
+        builder.append(", workingType=").append(workingType);
+        builder.append(", contactString=").append(contactString);
+        builder.append(", postDate=").append(postDate);
+        builder.append(", expireDate=").append(expireDate);
+        builder.append(", jobDescription=").append(jobDescription);
+        builder.append(", jobRequirement=").append(jobRequirement);
+        builder.append(", jobCategory=").append(jobCategory);
+        builder.append(", quantity=").append(quantity);
+        builder.append(", dossierLanguage=").append(dossierLanguage);
 
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("Job info:" + nl);
-        buffer.append(inAttr).append("jobTitle").append(stAttr).
-            append(jobTitle).append(edAttr).append(nl);
-        buffer.append(inAttr).append("companyName").append(stAttr).
-            append(companyName).append(edAttr).append(nl);
-        buffer.append(inAttr).append("companyAddress").append(stAttr).
-            append(companyAddress).append(edAttr).append(nl);
-        buffer.append(inAttr).append("jobDescription").append(stAttr).
-            append(jobDescription).append(edAttr).append(nl);
-        buffer.append(inAttr).append("jobRequirement").append(stAttr).
-            append(jobRequirement).append(edAttr).append(nl);
-        buffer.append(super.toString());
-        return buffer.toString();
+        
+        builder.append("]");
+        return builder.toString();
     }
 }
 
