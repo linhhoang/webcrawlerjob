@@ -52,7 +52,7 @@ public class CrawlerTest
             
             if (siteName == null || siteName.length() == 0)
             {
-                siteName = "VNW";
+                siteName = "VNWs";
                 System.out.println("Sitename default:'" + siteName + "'");
             }
             
@@ -87,61 +87,51 @@ public class CrawlerTest
                     break;
                 case 1:
                     extractor.generateWrapper(inputHtmlsFolder, siteName);
-                    File file = new File(String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\%1$s00.xml", siteName));
-                    FileInputStream fis;
-                    byte[] fileContent = null;
-                    try
-                    {
-                        fis = new FileInputStream(file);
-                        fileContent = new byte[(int)file.length()];
-                        fis.read(fileContent);
-                        
-                        Source source = sourceService.selectById(siteName);
-                        
-                        if (source == null)
-                        {
-                            logger.error("Cannot read Source of '" + siteName + "'");
-                            return;
-                        }
-                        
-                        Wrapper wrapperInsert = new Wrapper();
-                        wrapperInsert.setCreator(0L);
-                        wrapperInsert.setSourceKey(source.getKey());
-                        wrapperInsert.setCreateDate(new Date());
-                        wrapperInsert.setWrapperName(siteName + "00.xml");
-                        wrapperInsert.setDeleteFlg(false);
-                        wrapperInsert.setContent(new String(fileContent));
-                        wrapperService.insert(wrapperInsert);
-                    }
-                    catch (FileNotFoundException e1)
-                    {
-                        logger.error("Error occurred: " + e1.getMessage(), e1);
-                    }
-                    catch (IOException e)
-                    {
-                        logger.error("Error occurred: " + e.getMessage(), e);
-                    }
+//                    File file = new File(String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\%1$s00.xml", siteName));
+//                    FileInputStream fis;
+//                    byte[] fileContent = null;
+//                    try
+//                    {
+//                        fis = new FileInputStream(file);
+//                        fileContent = new byte[(int)file.length()];
+//                        fis.read(fileContent);
+//                        
+//                        Source source = sourceService.selectById(siteName);
+//                        
+//                        if (source == null)
+//                        {
+//                            logger.error("Cannot read Source of '" + siteName + "'");
+//                            return;
+//                        }
+//                        
+//                        Wrapper wrapperInsert = new Wrapper();
+//                        wrapperInsert.setCreator(0L);
+//                        wrapperInsert.setSourceKey(source.getKey());
+//                        wrapperInsert.setCreateDate(new Date());
+//                        wrapperInsert.setWrapperName(siteName + "00.xml");
+//                        wrapperInsert.setDeleteFlg(false);
+//                        wrapperInsert.setContent(new String(fileContent));
+//                        wrapperService.insert(wrapperInsert);
+//                    }
+//                    catch (FileNotFoundException e1)
+//                    {
+//                        logger.error("Error occurred: " + e1.getMessage(), e1);
+//                    }
+//                    catch (IOException e)
+//                    {
+//                        logger.error("Error occurred: " + e.getMessage(), e);
+//                    }
 
                     break;
                 case 2:
-                    Wrapper wrapper = wrapperService.selectByName(siteName + "00.xml");
-                    
-                    try
+                    String wrapperPath = String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\%1$s00.xml", siteName);
+                    // overwriteWrapper(siteName, wrapperPath);
+                    File resultFolder = new File(String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\result", siteName));
+                    if (!resultFolder.exists())
                     {
-                        FileOutputStream fos = new FileOutputStream(String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\%1$s00.xml", siteName));
-                        fos.write(wrapper.getContent().getBytes());
-                        fos.close();
+                        resultFolder.mkdir();
                     }
-                    catch (FileNotFoundException e)
-                    {
-                        logger.error("Error occurred: " + e.getMessage(), e);
-                    }
-                    catch (IOException e)
-                    {
-                        logger.error("Error occurred: " + e.getMessage(), e);
-                    }
-                    
-                    extractor.extractAll("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\VNW\\VNW00.xml", outputHtmlFolder, outputResultFolder);
+                    extractor.extractAll(wrapperPath, outputHtmlFolder, outputResultFolder);
                     break;
                 default:
             }
@@ -151,6 +141,26 @@ public class CrawlerTest
         } while (isContinue);
         
         System.out.println("The end.");
+    }
+
+    private static void overwriteWrapper(String siteName, String wrapperPath)
+    {
+        Wrapper wrapper = wrapperService.selectByName(siteName + "00.xml");
+        
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(wrapperPath);
+            fos.write(wrapper.getContent().getBytes());
+            fos.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            logger.error("Error occurred: " + e.getMessage(), e);
+        }
+        catch (IOException e)
+        {
+            logger.error("Error occurred: " + e.getMessage(), e);
+        }
     }
 }
 
