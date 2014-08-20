@@ -4,9 +4,6 @@
  */
 package research.vn.wcrl;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
 
 import research.vn.wcrl.utils.FileUtils;

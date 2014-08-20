@@ -19,73 +19,8 @@
   	http://www.springframework.org/schema/jdbc
         http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd">
 
-  <context:annotation-config />
-  <tx:annotation-driven />
-
-  <import resource="careerservice-config.xml"/>
-  
-  <!-- bean id="dataSource"	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-       <property name="driverClassName" value="oracle.jdbc.OracleDriver" />  
-       <property name="url" value="jdbc:oracle:thin:@//localhost:1592/database" />  
-       <property name="username" value="" />  
-       <property name="password" value ="" />   
-    </bean -->
+    <import resource="careerservice-context-main.xml" />
     
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-       <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-       <property name="url" value="jdbc:mysql://localhost:3306/career" />  
-       <property name="username" value="root" />  
-       <property name="password" value ="root" /> 
-    </bean>
-    
-    <!-- Defines an embeded db for testing. -->
-    <!-- <jdbc:embedded-database id="dataSource" type="HSQL">
-        <jdbc:script location="classpath:dataaccess/data_schema.sql"/>
-        <jdbc:script location="classpath:dataaccess/test_data.sql"/>
-    </jdbc:embedded-database> -->  
+    <bean id="companyHandler" class="research.vn.wcrl.CompanyHandler" />
 
-    <!-- Instructs Spring to perfrom declarative transaction managemenet on annotated classes -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-    
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-      <property name="dataSource" ref="dataSource" />
-    </bean>
-    
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-    	<property name="dataSource" ref="dataSource" />
-        
-        <!-- configLocation is used to specify the location of the MyBatis XML configuration file.  -->
-        <property name="configLocation" value="classpath:mybatis-config.xml" /> 
-    </bean>
-  
-  <bean id="companyMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >
-    	<property name="mapperInterface" value="research.vn.careerservice.dao.ICompanyMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-  </bean>
-  
-  <bean id="masterCodeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >
-    	<property name="mapperInterface" value="research.vn.careerservice.dao.IMasterCodeMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-  </bean>
-
-  <bean id="jobMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >
-    	<property name="mapperInterface" value="research.vn.careerservice.dao.IJobMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-  </bean>
-
-  <bean id="referenceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >
-    	<property name="mapperInterface" value="research.vn.careerservice.dao.IReferenceMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-  </bean>
-
-  <bean id="sourceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >
-    	<property name="mapperInterface" value="research.vn.careerservice.dao.ISourceMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-  </bean>
-
-  <bean id="wrapperMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >
-    	<property name="mapperInterface" value="research.vn.careerservice.dao.IWrapperMapper" />
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-  </bean>
-  
 </beans>
