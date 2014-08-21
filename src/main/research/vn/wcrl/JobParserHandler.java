@@ -15,6 +15,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import research.vn.wcrl.bo.CompanyInfo;
 import research.vn.wcrl.bo.JobInfo;
 import research.vn.wcrl.utils.Constants;
 
@@ -118,6 +119,7 @@ public class JobParserHandler extends DefaultHandler
                                 || Constants.F_POST_DATE.equalsIgnoreCase(attr.getValue(i))
                                 || Constants.F_EXPIRE_DATE.equalsIgnoreCase(attr.getValue(i))
                                 || Constants.F_DOSSIER_LANGUAGE.equalsIgnoreCase(attr.getValue(i))
+                                || Constants.F_COMPANY_NAME.equalsIgnoreCase(attr.getValue(i))
                                 || Constants.F_COMPANY_ADDRESS.equalsIgnoreCase(attr.getValue(i))
                                 || Constants.F_COMPANY_DESCRIPTION.equalsIgnoreCase(attr.getValue(i))
                                 )
@@ -146,41 +148,42 @@ public class JobParserHandler extends DefaultHandler
             return;
         }
         
+        String contentTrimed = contents.toString().trim();
         if (Constants.F_JOB_TITLE.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setJobTitle(contents.toString());
+            jobInfo.setJobTitle(contentTrimed);
         }
         else if (Constants.F_JOB_DESCRIPTION.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setJobDescription(contents.toString());
+            jobInfo.setJobDescription(contentTrimed);
         }
         else if (Constants.F_JOB_REQUIREMENT.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setJobRequirement(contents.toString());
+            jobInfo.setJobRequirement(contentTrimed);
         }
         else if (Constants.F_JOB_CATEGORY.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setJobCategory(contents.toString());
+            jobInfo.setJobCategory(contentTrimed);
         }
         else if (Constants.F_POSITION.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setPosition(contents.toString());
+            jobInfo.setPosition(contentTrimed);
         }
         else if (Constants.F_WORKING_TIME.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setWorkingTime(contents.toString());
+            jobInfo.setWorkingTime(contentTrimed);
         }
         else if (Constants.F_WORKING_TYPE.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setWorkingType(contents.toString());
+            jobInfo.setWorkingType(contentTrimed);
         }
         else if (Constants.F_SALARY.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setSalary(contents.toString());
+            jobInfo.setSalary(contentTrimed);
         }
         else if (Constants.F_QUANTITY.equalsIgnoreCase(field.toString()))
         {
-            String quantityStr = contents.toString();
+            String quantityStr = contentTrimed;
             Integer parseInt = null;
             try
             {
@@ -195,31 +198,47 @@ public class JobParserHandler extends DefaultHandler
         }
         else if (Constants.F_LOCATION.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setLocation(contents.toString());
+            jobInfo.setLocation(contentTrimed);
         }
         else if (Constants.F_CONTACT_STRING.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setContactString(contents.toString());
+            jobInfo.setContactString(contentTrimed);
         }
         else if (Constants.F_POST_DATE.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setPostDate(contents.toString());
+            jobInfo.setPostDate(contentTrimed);
         }
         else if (Constants.F_EXPIRE_DATE.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setExpireDate(contents.toString());
+            jobInfo.setExpireDate(contentTrimed);
         }
         else if (Constants.F_DOSSIER_LANGUAGE.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setDossierLanguage(contents.toString());
+            jobInfo.setDossierLanguage(contentTrimed);
+        }
+        else if (Constants.F_COMPANY_NAME.equalsIgnoreCase(field.toString()))
+        {
+            if (jobInfo.getCompanyInfo() == null)
+            {
+                jobInfo.setCompanyInfo(new CompanyInfo());
+            }
+            jobInfo.getCompanyInfo().setCompanyName(contentTrimed);
         }
         else if (Constants.F_COMPANY_ADDRESS.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setCompanyAddress(contents.toString());
+            if (jobInfo.getCompanyInfo() == null)
+            {
+                jobInfo.setCompanyInfo(new CompanyInfo());
+            }
+            jobInfo.getCompanyInfo().setCompanyAddress(contentTrimed);
         }
         else if (Constants.F_COMPANY_DESCRIPTION.equalsIgnoreCase(field.toString()))
         {
-            jobInfo.setCompanyDescription(contents.toString());
+            if (jobInfo.getCompanyInfo() == null)
+            {
+                jobInfo.setCompanyInfo(new CompanyInfo());
+            }
+            jobInfo.getCompanyInfo().setCompanyDescription(contentTrimed);
         }
         
     }

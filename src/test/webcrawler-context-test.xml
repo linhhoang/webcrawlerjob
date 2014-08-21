@@ -21,5 +21,5 @@
 
     <import resource="careerservice-context-main.xml" />
 
-    <bean id="companyHandler" class="research.vn.wcrl.CompanyHandler" />
+    <bean id="jobPersistence" class="research.vn.wcrl.JobPersistence" />
 </beans>
