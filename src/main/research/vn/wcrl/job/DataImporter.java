@@ -9,11 +9,14 @@ package research.vn.wcrl.job;
 
 import java.util.List;
 
+import org.apache.commons.logging.impl.Log4JLogger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import research.vn.careerservice.base.exception.CrException;
 import research.vn.wcrl.DataExtractor;
+import research.vn.wcrl.JobPersistence;
 import research.vn.wcrl.base.converter.IConverter;
 import research.vn.wcrl.base.converter.JobConverter;
 import research.vn.wcrl.bo.JobInfo;
@@ -27,7 +30,8 @@ import research.vn.wcrl.utils.ContextLoader;
  */
 public class DataImporter implements Job
 {
-
+    private static Log4JLogger log = new Log4JLogger("JobPersistence");
+    
     /**
      * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
      */
@@ -42,10 +46,16 @@ public class DataImporter implements Job
             {
                 preprocessingData(jobInfo);
                 
-                IConverter<JobInfo, research.vn.careerservice.vo.Job> jobConverter = new JobConverter();
-                research.vn.careerservice.vo.Job jobVo = jobConverter.convert(jobInfo);
+                JobPersistence jobPersistence = ContextLoader.getInstance().getBean(JobPersistence.class);
                 
-
+                try
+                {
+                    jobPersistence.saveJob(jobInfo);
+                }
+                catch (CrException e)
+                {
+                    log.error("Error occurred: " + e.getMessage(), e);
+                }
             }
         }
         

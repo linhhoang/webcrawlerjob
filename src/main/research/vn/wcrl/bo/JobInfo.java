@@ -20,8 +20,6 @@ public class JobInfo implements Serializable
 
     private String jobTitle;
 
-    private String companyName;
-
     private String jobDescription;
 
     private String jobRequirement;
@@ -48,10 +46,7 @@ public class JobInfo implements Serializable
 
     private String dossierLanguage;
 
-    private String companyAddress;
-
-    private String companyDescription;
-
+    private CompanyInfo companyInfo;
 
     /**
      * Gets the jobTitle
@@ -72,28 +67,6 @@ public class JobInfo implements Serializable
     public void setJobTitle(String jobTitle)
     {
         this.jobTitle = jobTitle;
-    }
-
-
-    /**
-     * Gets the companyName
-     * 
-     * @return Returns the companyName
-     */
-    public String getCompanyName()
-    {
-        return companyName;
-    }
-
-
-    /**
-     * Sets the companyName
-     * 
-     * @param companyName The companyName to set
-     */
-    public void setCompanyName(String companyName)
-    {
-        this.companyName = companyName;
     }
 
 
@@ -338,51 +311,7 @@ public class JobInfo implements Serializable
         this.dossierLanguage = dossierLanguage;
     }
 
-
-    /**
-     * Gets the companyAddress
-     * 
-     * @return Returns the companyAddress
-     */
-    public String getCompanyAddress()
-    {
-        return companyAddress;
-    }
-
-
-    /**
-     * Sets the companyAddress
-     * 
-     * @param companyAddress The companyAddress to set
-     */
-    public void setCompanyAddress(String companyAddress)
-    {
-        this.companyAddress = companyAddress;
-    }
-
-
-    /**
-     * Gets the companyDescription
-     * 
-     * @return Returns the companyDescription
-     */
-    public String getCompanyDescription()
-    {
-        return companyDescription;
-    }
-
-
-    /**
-     * Sets the companyDescription
-     * 
-     * @param companyDescription The companyDescription to set
-     */
-    public void setCompanyDescription(String companyDescription)
-    {
-        this.companyDescription = companyDescription;
-    }
-
-
+    
     /**
      * Sets the workingTime
      *
@@ -428,6 +357,28 @@ public class JobInfo implements Serializable
 
 
     /**
+     * Sets the companyInfo
+     *
+     * @param companyInfo The companyInfo to set
+     */
+    public void setCompanyInfo(CompanyInfo companyInfo)
+    {
+        this.companyInfo = companyInfo;
+    }
+
+
+    /**
+     * Gets the companyInfo
+     *
+     * @return Returns the companyInfo
+     */
+    public CompanyInfo getCompanyInfo()
+    {
+        return companyInfo;
+    }
+
+
+    /**
      * @see java.lang.Object#toString()
      */
     @Override
@@ -448,7 +399,7 @@ public class JobInfo implements Serializable
         builder.append(", jobCategory=").append(jobCategory);
         builder.append(", quantity=").append(quantity);
         builder.append(", dossierLanguage=").append(dossierLanguage);
-
+        builder.append(", companyInfo=").append(companyInfo.toString());
         
         builder.append("]");
         return builder.toString();

@@ -67,6 +67,9 @@ public class Constants
     /** F_DOSSIER_LANGUAGE */
     public static final String F_DOSSIER_LANGUAGE = "DOSSIER_LANGUAGE";
 
+    /** F_COMPANY_NAME */
+    public static final String F_COMPANY_NAME = "COMPANY_NAME";
+    
     /** F_COMPANY_ADDRESS */
     public static final String F_COMPANY_ADDRESS = "COMPANY_ADDRESS";
 
