@@ -47,6 +47,8 @@ public class JobInfo implements Serializable
     private String dossierLanguage;
 
     private CompanyInfo companyInfo;
+    
+    private String referenceId;
 
     /**
      * Gets the jobTitle
@@ -404,6 +406,16 @@ public class JobInfo implements Serializable
         builder.append("]");
         return builder.toString();
     }
+
+
+	public String getReferenceId() {
+		return referenceId;
+	}
+
+
+	public void setReferenceId(String referenceId) {
+		this.referenceId = referenceId;
+	}
 }
 
 

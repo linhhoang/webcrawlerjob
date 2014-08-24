@@ -43,7 +43,6 @@ public class DataExtractor
         String resultFile = resultFolder + File.separator + "res_VNWs_1000usdmonth491741jd.xml";
         
         JobInfo jobInfo = JobParser.getInstance().parse(resultFile);
-        
         List<JobInfo> jobInfoList = new ArrayList<JobInfo>();
         jobInfoList.add(jobInfo);
         return jobInfoList;

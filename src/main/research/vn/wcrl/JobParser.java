@@ -11,7 +11,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -72,9 +75,32 @@ public class JobParser
         {
             log.error("Error occurred: " + e.getMessage(), e);
         }
-        
-        return jobParser.getJobInfo();
+        JobInfo jobInfo = jobParser.getJobInfo();
+        jobInfo.setReferenceId(getReferenceId(filePath));
+        return jobInfo;
     }
+
+    /**
+     * Get reference id from file path
+     * @param filePath
+     * @return
+     */
+	private String getReferenceId(String filePath) {
+		
+		if (StringUtils.isNotEmpty(filePath))
+		{
+			Pattern pattern = Pattern.compile("(.*_)(.*)(_)");
+			Matcher matcher = pattern.matcher(filePath);
+			
+			if (matcher.find())
+			{
+				return matcher.group(2);
+			}
+
+		}
+		
+		return null;
+	}
 }
 
 
