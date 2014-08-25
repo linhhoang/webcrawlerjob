@@ -65,6 +65,7 @@ public class CrawlerTest
 
             ExtractFromHtml extractor = new ExtractFromHtml();
             extractor.setInputFileEncoding("utf8");
+            String rootFolder = initFolder("output.root");
             String inputHtmlsFolder = String.format(PropertyUtils.getInstance()
                                                             .getValue("input.folder.html"),
                                                     siteName);
@@ -143,7 +144,18 @@ public class CrawlerTest
         System.out.println("The end.");
     }
 
-    private static void overwriteWrapper(String siteName, String wrapperPath)
+    private static String initFolder(String folder) {
+    	String rootFolder = PropertyUtils.getInstance().getValue(folder);
+    	File file = new File(rootFolder);
+    	
+    	if (!file.exists() && file.canWrite())
+    	{
+    		file.mkdirs();
+    	}
+		return file.getAbsolutePath();
+	}
+
+	private static void overwriteWrapper(String siteName, String wrapperPath)
     {
         Wrapper wrapper = wrapperService.selectByName(siteName + "00.xml");
         

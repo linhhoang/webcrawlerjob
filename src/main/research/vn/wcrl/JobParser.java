@@ -7,7 +7,6 @@
  */
 package research.vn.wcrl;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -87,6 +86,7 @@ public class JobParser
      */
 	private String getReferenceId(String filePath) {
 		
+		log.debug("Get referenceId of '" + filePath + "'");
 		if (StringUtils.isNotEmpty(filePath))
 		{
 			Pattern pattern = Pattern.compile("(.*_)(.*)(_)");

@@ -8,14 +8,11 @@
 package research.vn.wcrl;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import research.vn.wcrl.bo.JobInfo;
 
@@ -40,12 +37,28 @@ public class DataExtractor
     {
         // TODO: 
         String resultFolder = String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\result", "VNWs");
-        String resultFile = resultFolder + File.separator + "res_VNWs_1000usdmonth491741jd.xml";
+        log.debug("Extract data from folder '" + resultFolder + "'");
+        File resultFolderFile = new File(resultFolder);
+        if (resultFolderFile.isDirectory())
+        {
+        	File[] listFiles = resultFolderFile.listFiles();
+        	
+        	if (ArrayUtils.isNotEmpty(listFiles))
+        	{
+        		List<JobInfo> jobInfoList = new ArrayList<JobInfo>();
+        		for (File file : listFiles) {
+        			String resultFile = resultFolder + File.separator + file.getName();
+        			 log.debug("Parse job info from reslult file '" + file.getName() + "'");
+        	        JobInfo jobInfo = JobParser.getInstance().parse(resultFile);
+        	        
+        	        jobInfoList.add(jobInfo);
+        		}
+        		
+        		return jobInfoList;
+        	}
+        }
         
-        JobInfo jobInfo = JobParser.getInstance().parse(resultFile);
-        List<JobInfo> jobInfoList = new ArrayList<JobInfo>();
-        jobInfoList.add(jobInfo);
-        return jobInfoList;
+        return null;
     }
     
     
