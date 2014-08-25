@@ -37,6 +37,9 @@ public class DataImporter implements Job
      */
     public void execute(JobExecutionContext arg0) throws JobExecutionException
     {
+    	log.info("Start dataImporter job.");
+    	
+    	log.info("Extracting job information..");
         // TODO: import data from result file to DB
         List<JobInfo> jobInfoList = DataExtractor.extract();
         
@@ -69,6 +72,8 @@ public class DataImporter implements Job
      */
     private void preprocessingData(JobInfo jobInfo)
     {
+    	log.info("preprocessing data..");
+    	// TODO: TBD
     }
 
 }

@@ -26,7 +26,6 @@ import research.vn.careerservice.bo.CompanyFilter;
 import research.vn.careerservice.service.ICompanyService;
 import research.vn.careerservice.service.IJobService;
 import research.vn.careerservice.service.IReferenceService;
-import research.vn.careerservice.utils.ConfigurationUtils;
 import research.vn.careerservice.utils.MasterCodeMapUtils;
 import research.vn.careerservice.vo.Company;
 import research.vn.careerservice.vo.Reference;
@@ -63,12 +62,11 @@ public class JobPersistence
      */
     public void saveJob(JobInfo jobInfo) throws CrException
     {
+    	logger.info("Start saving job information.");
     	String referenceId = jobInfo.getReferenceId();
     	Reference referenceById = referenceService.selectById(referenceId);
     	if (referenceById != null)
     	{
-    		
-    		// TODO: in progress
     		CompanyInfo companyInfo = jobInfo.getCompanyInfo();
             
             // save the company information
@@ -86,7 +84,7 @@ public class JobPersistence
             try
             {
                 jobService.insert(jobVo);
-                
+                logger.info(String.format("The job '%s' is saved successful.", jobInfo.getJobTitle()));
                 Reference updateReference = referenceById.clone();
         		updateReferenceStatus(updateReference);
             } catch (PersistenceException e)
@@ -114,6 +112,11 @@ public class JobPersistence
 					}
 				}
 			}
+			logger.warn(String.format("The workingType '%s' is not exist in MasterCode", workingType));
+		}
+		else
+		{
+			logger.warn("The workingType '%s' is null or empty");
 		}
 		
 		return null;
@@ -135,8 +138,12 @@ public class JobPersistence
 					}
 				}
 			}
+			logger.warn(String.format("The position '%s' is not exist in MasterCode", position));
 		}
-		
+		else
+		{
+			logger.warn("The position '%s' is null or empty");
+		}
 		return null;
 	}
 
@@ -156,8 +163,12 @@ public class JobPersistence
 					}
 				}
 			}
+			logger.warn(String.format("The location '%s' is not exist in MasterCode", location));
 		}
-		
+		else
+		{
+			logger.warn("The location '%s' is null or empty");
+		}
 		return null;
 	}
 
@@ -177,8 +188,12 @@ public class JobPersistence
 					}
 				}
 			}
+			logger.warn(String.format("The dossierLanguage '%s' is not exist in MasterCode", dossierLanguage));
 		}
-		
+		else
+		{
+			logger.warn("The dossierLanguage '%s' is null or empty");
+		}
 		return null;
 	}
 
@@ -188,6 +203,7 @@ public class JobPersistence
 		updateReference.setUpdater(0L);
 		updateReference.setUpdateDate(new Date());
 		referenceService.update(updateReference);
+		logger.info("The reference status has been update to 'EXTRACTED'");
 	}
 
 
@@ -221,7 +237,9 @@ public class JobPersistence
                 newCompany.setCreator(0L);
 
                 companyKey = companyService.insert(newCompany);
-                
+				logger.info(String.format(
+						"The company '%s' has been created successful.",
+						companyInfo.getCompanyName()));
             }
         } catch (PersistenceException e)
         {
