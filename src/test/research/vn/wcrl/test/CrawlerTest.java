@@ -65,21 +65,13 @@ public class CrawlerTest
 
             ExtractFromHtml extractor = new ExtractFromHtml();
             extractor.setInputFileEncoding("utf8");
-            String rootFolder = initFolder("output.root");
-            String inputHtmlsFolder = String.format(PropertyUtils.getInstance()
-                                                            .getValue("input.folder.html"),
-                                                    siteName);
-            String outputWrapperFolder = String.format(PropertyUtils.getInstance()
-                                                               .getValue("output.folder.wrapper"),
-                                                       siteName);
-            String outputHtmlFolder = String.format(PropertyUtils.getInstance()
-                                                       .getValue("output.folder.html"),
-                                               siteName);
+            initFolder("output.root");
+			String inputHtmlsFolder = initFoler("input.folder.html", siteName);
+			String outputWrapperFolder = initFoler("output.folder.wrapper", siteName);
+            String outputHtmlFolder = initFoler("output.folder.html", siteName);
             
-            String outputResultFolder = String.format(PropertyUtils.getInstance()
-                                                              .getValue("output.folder.result"),
-                                                      siteName);
-    
+            String outputResultFolder = initFoler("output.folder.result", siteName);
+            String wrapperFilePath = String.format(outputWrapperFolder + File.separator + "%1$s00.xml", siteName);
             switch (value)
             {
                 case 0:
@@ -88,51 +80,18 @@ public class CrawlerTest
                     break;
                 case 1:
                     extractor.generateWrapper(inputHtmlsFolder, siteName);
-//                    File file = new File(String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\%1$s00.xml", siteName));
-//                    FileInputStream fis;
-//                    byte[] fileContent = null;
-//                    try
-//                    {
-//                        fis = new FileInputStream(file);
-//                        fileContent = new byte[(int)file.length()];
-//                        fis.read(fileContent);
-//                        
-//                        Source source = sourceService.selectById(siteName);
-//                        
-//                        if (source == null)
-//                        {
-//                            logger.error("Cannot read Source of '" + siteName + "'");
-//                            return;
-//                        }
-//                        
-//                        Wrapper wrapperInsert = new Wrapper();
-//                        wrapperInsert.setCreator(0L);
-//                        wrapperInsert.setSourceKey(source.getKey());
-//                        wrapperInsert.setCreateDate(new Date());
-//                        wrapperInsert.setWrapperName(siteName + "00.xml");
-//                        wrapperInsert.setDeleteFlg(false);
-//                        wrapperInsert.setContent(new String(fileContent));
-//                        wrapperService.insert(wrapperInsert);
-//                    }
-//                    catch (FileNotFoundException e1)
-//                    {
-//                        logger.error("Error occurred: " + e1.getMessage(), e1);
-//                    }
-//                    catch (IOException e)
-//                    {
-//                        logger.error("Error occurred: " + e.getMessage(), e);
-//                    }
+//                    File file = new File(wrapperFilePath);
+//                    writeWrapper(siteName, file);
 
                     break;
                 case 2:
-                    String wrapperPath = String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\%1$s00.xml", siteName);
-                    // overwriteWrapper(siteName, wrapperPath);
-                    File resultFolder = new File(String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\result", siteName));
+                    // overwriteWrapper(siteName, wrapperFilePath);
+                    File resultFolder = new File(outputResultFolder);
                     if (!resultFolder.exists())
                     {
                         resultFolder.mkdir();
                     }
-                    extractor.extractAll(wrapperPath, outputHtmlFolder, outputResultFolder);
+                    extractor.extractAll(wrapperFilePath, outputHtmlFolder, outputResultFolder);
                     break;
                 default:
             }
@@ -144,9 +103,62 @@ public class CrawlerTest
         System.out.println("The end.");
     }
 
+	private static String initFoler(String folder, String param) {
+		String folderPath = String.format(PropertyUtils.getInstance().getValue(folder), param);
+		
+    	File file = new File(folderPath);
+    	
+    	if (!file.exists() && file.canWrite())
+    	{
+    		file.mkdirs();
+    	}
+		return file.getAbsolutePath();
+	}
+
+	private static void writeWrapper(String siteName, File file) {
+		if (!file.exists())
+		{
+			System.out.println("Wrapper file does not exist. '" + file.getAbsolutePath() + "'");
+			return;
+		}
+		FileInputStream fis;
+		byte[] fileContent = null;
+		try
+		{
+		    fis = new FileInputStream(file);
+		    fileContent = new byte[(int)file.length()];
+		    fis.read(fileContent);
+		    
+		    Source source = sourceService.selectById(siteName);
+		    
+		    if (source == null)
+		    {
+		        logger.error("Cannot read Source of '" + siteName + "'");
+		        return;
+		    }
+		    
+		    Wrapper wrapperInsert = new Wrapper();
+		    wrapperInsert.setCreator(0L);
+		    wrapperInsert.setSourceKey(source.getKey());
+		    wrapperInsert.setCreateDate(new Date());
+		    wrapperInsert.setWrapperName(siteName + "00.xml");
+		    wrapperInsert.setDeleteFlg(false);
+		    wrapperInsert.setContent(new String(fileContent));
+		    wrapperService.insert(wrapperInsert);
+		}
+		catch (FileNotFoundException e1)
+		{
+		    logger.error("Error occurred: " + e1.getMessage(), e1);
+		}
+		catch (IOException e)
+		{
+		    logger.error("Error occurred: " + e.getMessage(), e);
+		}
+	}
+
     private static String initFolder(String folder) {
-    	String rootFolder = PropertyUtils.getInstance().getValue(folder);
-    	File file = new File(rootFolder);
+    	String folderPath = PropertyUtils.getInstance().getValue(folder);
+    	File file = new File(folderPath);
     	
     	if (!file.exists() && file.canWrite())
     	{
