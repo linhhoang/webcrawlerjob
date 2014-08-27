@@ -6,6 +6,8 @@ package research.vn.wcrl.utils;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -75,7 +77,24 @@ public final class PropertyUtils
      */
     public String getValue(String configKey)
     {
-        return mappingProperties.getProperty(configKey);
+        String propertyValue = mappingProperties.getProperty(configKey);
+        
+        if (StringUtils.isNotEmpty(propertyValue))
+        {
+            Pattern pattern = Pattern.compile("(\\$\\{)(.*)(\\})");
+            Matcher matcher = pattern.matcher(propertyValue);
+            
+            if (matcher.find())
+            {
+                String group = matcher.group();
+                String matchGroup = matcher.group(2);
+                if (StringUtils.isNotEmpty(matchGroup))
+                {
+                    propertyValue = propertyValue.replace(group, getValue(matchGroup));
+                }
+            }
+        }
+        return propertyValue;
     }
 
     /**
@@ -86,7 +105,7 @@ public final class PropertyUtils
      */
     public Integer getIntValue(String configKey)
     {
-        String value = mappingProperties.getProperty(configKey).trim();
+        String value = getValue(configKey).trim();
         
         if (StringUtils.isEmpty(value))
         {
