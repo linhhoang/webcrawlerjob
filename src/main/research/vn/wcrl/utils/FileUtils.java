@@ -153,6 +153,46 @@ public class FileUtils
     {
         writeTextFile(content, filePath, null);
     }
+    
+
+    /**
+     * init folder
+     *
+     * @param folder
+     * @param param
+     * @return Folder path
+     */
+    public String initFoler(String folder, String param) {
+        String folderPath = String.format(PropertyUtils.getInstance().getValue(folder), param);
+        
+        File file = new File(folderPath);
+        
+        if (!file.exists())
+        {
+            file.mkdirs();
+            log.debug("Folder '" + file.getAbsolutePath() + "' is created successful.");
+        }
+        return file.getAbsolutePath();
+    }
+
+    
+    /**
+     * init folder
+     *
+     * @param folder
+     * @return Folder path
+     */
+    public String initFolder(String folder) {
+        String folderPath = PropertyUtils.getInstance().getValue(folder);
+        File file = new File(folderPath);
+        
+        if (!file.exists())
+        {
+            file.mkdirs();
+            log.debug("Folder '" + file.getAbsolutePath() + "' is created successful.");
+        }
+        return file.getAbsolutePath();
+    }
 }
 
 
