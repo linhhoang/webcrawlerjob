@@ -26,7 +26,7 @@ import research.vn.careerservice.bo.CompanyFilter;
 import research.vn.careerservice.service.ICompanyService;
 import research.vn.careerservice.service.IJobService;
 import research.vn.careerservice.service.IReferenceService;
-import research.vn.careerservice.utils.MasterCodeMapUtils;
+import research.vn.careerservice.utils.ConfigurationUtils;
 import research.vn.careerservice.vo.Company;
 import research.vn.careerservice.vo.Reference;
 import research.vn.wcrl.base.converter.IConverter;
@@ -100,7 +100,7 @@ public class JobPersistence
 	private Integer retreiveWorkingTypeCode(String workingType) {
 		if (StringUtils.isNotEmpty(workingType))
 		{
-			Map<Integer, String> workingTypeMap = MasterCodeMapUtils.getInstance().getWorkingTypeMap();
+			Map<Integer, String> workingTypeMap = ConfigurationUtils.getInstance().getWorkingTypeMap();
 			Set<Entry<Integer, String>> entrySet = workingTypeMap.entrySet();
 			
 			if (!CollectionUtils.isEmpty(entrySet))
@@ -126,7 +126,7 @@ public class JobPersistence
 	private Integer retreivePositionCode(String position) {
 		if (StringUtils.isNotEmpty(position))
 		{
-			Map<Integer, String> positionMap = MasterCodeMapUtils.getInstance().getPositionMap();
+			Map<Integer, String> positionMap = ConfigurationUtils.getInstance().getPositionMap();
 			Set<Entry<Integer, String>> entrySet = positionMap.entrySet();
 			
 			if (!CollectionUtils.isEmpty(entrySet))
@@ -151,7 +151,7 @@ public class JobPersistence
 	private Integer retreiveLocationCode(String location) {
 		if (StringUtils.isNotEmpty(location))
 		{
-			Map<Integer, String> locationMap = MasterCodeMapUtils.getInstance().getLocationMap();
+			Map<Integer, String> locationMap = ConfigurationUtils.getInstance().getLocationMap();
 			Set<Entry<Integer, String>> entrySet = locationMap.entrySet();
 			
 			if (!CollectionUtils.isEmpty(entrySet))
@@ -176,7 +176,7 @@ public class JobPersistence
 	private Integer retrieveDossierLanguageCode(String dossierLanguage) {
 		if (StringUtils.isNotEmpty(dossierLanguage))
 		{
-			Map<Integer, String> dossierLanguageMap = MasterCodeMapUtils.getInstance().getDossierLanguageMap();
+			Map<Integer, String> dossierLanguageMap = ConfigurationUtils.getInstance().getDossierLanguageMap();
 			Set<Entry<Integer, String>> entrySet = dossierLanguageMap.entrySet();
 			
 			if (!CollectionUtils.isEmpty(entrySet))
