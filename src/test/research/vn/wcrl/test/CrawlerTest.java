@@ -65,12 +65,12 @@ public class CrawlerTest
 
             ExtractFromHtml extractor = new ExtractFromHtml();
             extractor.setInputFileEncoding("utf8");
-            initFolder("output.root");
-			String inputHtmlsFolder = initFoler("input.folder.html", siteName);
-			String outputWrapperFolder = initFoler("output.folder.wrapper", siteName);
-            String outputHtmlFolder = initFoler("output.folder.html", siteName);
+            FileUtils.getInstance().initFolder("output.root");
+			String inputHtmlsFolder = FileUtils.getInstance().initFoler("input.folder.html", siteName);
+			String outputWrapperFolder = FileUtils.getInstance().initFoler("output.folder.wrapper", siteName);
+            String outputHtmlFolder = FileUtils.getInstance().initFoler("output.folder.html", siteName);
+            String outputResultFolder = FileUtils.getInstance().initFoler("output.folder.result", siteName);
             
-            String outputResultFolder = initFoler("output.folder.result", siteName);
             String wrapperFilePath = String.format(outputWrapperFolder + File.separator + "%1$s00.xml", siteName);
             switch (value)
             {
@@ -102,19 +102,8 @@ public class CrawlerTest
         
         System.out.println("The end.");
     }
-
-	private static String initFoler(String folder, String param) {
-		String folderPath = String.format(PropertyUtils.getInstance().getValue(folder), param);
-		
-    	File file = new File(folderPath);
-    	
-    	if (!file.exists() && file.canWrite())
-    	{
-    		file.mkdirs();
-    	}
-		return file.getAbsolutePath();
-	}
-
+	
+	
 	private static void writeWrapper(String siteName, File file) {
 		if (!file.exists())
 		{
@@ -154,17 +143,6 @@ public class CrawlerTest
 		{
 		    logger.error("Error occurred: " + e.getMessage(), e);
 		}
-	}
-
-    private static String initFolder(String folder) {
-    	String folderPath = PropertyUtils.getInstance().getValue(folder);
-    	File file = new File(folderPath);
-    	
-    	if (!file.exists() && file.canWrite())
-    	{
-    		file.mkdirs();
-    	}
-		return file.getAbsolutePath();
 	}
 
 	private static void overwriteWrapper(String siteName, String wrapperPath)
