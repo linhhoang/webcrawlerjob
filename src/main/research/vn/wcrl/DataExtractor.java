@@ -15,6 +15,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import research.vn.wcrl.bo.JobInfo;
+import research.vn.wcrl.utils.PropertyUtils;
 
 /**
  * 
@@ -35,8 +36,7 @@ public class DataExtractor
      */
     public static List<JobInfo> extract()
     {
-        // TODO: 
-        String resultFolder = String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\result", "VNWs");
+        String resultFolder = PropertyUtils.getInstance().getValue("output.folder.result");
         log.debug("Extract data from folder '" + resultFolder + "'");
         File resultFolderFile = new File(resultFolder);
         if (resultFolderFile.isDirectory())
