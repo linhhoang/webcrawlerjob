@@ -16,9 +16,8 @@ import org.quartz.JobExecutionException;
 
 import research.vn.careerservice.base.exception.CrException;
 import research.vn.wcrl.DataExtractor;
+import research.vn.wcrl.JobImporter;
 import research.vn.wcrl.JobPersistence;
-import research.vn.wcrl.base.converter.IConverter;
-import research.vn.wcrl.base.converter.JobConverter;
 import research.vn.wcrl.bo.JobInfo;
 import research.vn.wcrl.utils.ContextLoader;
 
@@ -40,7 +39,6 @@ public class DataImporter implements Job
     	log.info("Start dataImporter job.");
     	
     	log.info("Extracting job information..");
-        // TODO: import data from result file to DB
         List<JobInfo> jobInfoList = DataExtractor.extract();
         
         if (jobInfoList != null && jobInfoList.size() > 0)
