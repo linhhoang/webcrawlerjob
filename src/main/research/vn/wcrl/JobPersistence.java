@@ -19,20 +19,25 @@ import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.testng.Assert;
 
 import research.vn.careerservice.base.exception.CrApplicationException;
 import research.vn.careerservice.base.exception.CrException;
 import research.vn.careerservice.bo.CompanyFilter;
+import research.vn.careerservice.bo.MasterCodePK;
 import research.vn.careerservice.service.ICompanyService;
 import research.vn.careerservice.service.IJobService;
+import research.vn.careerservice.service.IMasterCodeService;
 import research.vn.careerservice.service.IReferenceService;
 import research.vn.careerservice.utils.ConfigurationUtils;
 import research.vn.careerservice.vo.Company;
+import research.vn.careerservice.vo.MasterCode;
 import research.vn.careerservice.vo.Reference;
 import research.vn.wcrl.base.converter.IConverter;
 import research.vn.wcrl.base.converter.JobConverter;
 import research.vn.wcrl.bo.CompanyInfo;
 import research.vn.wcrl.bo.JobInfo;
+import research.vn.careerservice.base.common.Constants;
 
 /**
  * 
@@ -46,13 +51,16 @@ public class JobPersistence
     private static Log4JLogger logger = new Log4JLogger("JobPersistence");
     
     @Autowired
-    IJobService jobService;
+    private IJobService jobService;
     
     @Autowired
-    ICompanyService companyService;
+    private ICompanyService companyService;
     
     @Autowired
-    IReferenceService referenceService;
+    private IReferenceService referenceService;
+    
+    @Autowired
+    private IMasterCodeService masterCodeService;
     
     /**
      * save job information
@@ -101,6 +109,7 @@ public class JobPersistence
 		if (StringUtils.isNotEmpty(workingType))
 		{
 			Map<Integer, String> workingTypeMap = ConfigurationUtils.getInstance().getWorkingTypeMap();
+			
 			Set<Entry<Integer, String>> entrySet = workingTypeMap.entrySet();
 			
 			if (!CollectionUtils.isEmpty(entrySet))
@@ -112,6 +121,7 @@ public class JobPersistence
 					}
 				}
 			}
+			addNewMasterCode(workingType, Constants.WORKINGTYPE_MC, Constants.COMMON_FK);
 			logger.warn(String.format("The workingType '%s' is not exist in MasterCode", workingType));
 		}
 		else
@@ -122,6 +132,84 @@ public class JobPersistence
 		return null;
 	}
 
+
+    /**
+     * add new value to MasterCode
+     *
+     * @param value
+     * @param keyValue 
+     * @param functionKey 
+     */
+    void addNewMasterCode(String value, String keyValue, Long functionKey)
+    {
+        Long selectMaxSequence = masterCodeService.selectMaxSequence(new MasterCodePK(keyValue, null, functionKey));
+        
+        if (selectMaxSequence == null)
+        {
+            selectMaxSequence = -1L;
+        }
+        addMasterCode(keyValue, selectMaxSequence.intValue() + 1, functionKey, value, value);
+    }
+
+    
+    /**
+     * add company
+     * @param keyValue 
+     * @param sequence 
+     * @param functionKey 
+     * @param description 
+     * @param values 
+     *
+     */
+    private void addMasterCode(String keyValue,
+                            Integer sequence,
+                            Long functionKey,
+                            String description,
+                            String... values)
+    {
+        MasterCode masterCode = new MasterCode();
+        masterCode.setKeyValue(keyValue);
+        masterCode.setSequence(sequence);
+        masterCode.setFunctionKey(functionKey);
+        masterCode.setDescription(description);
+        if (values != null)
+        {
+            if (values.length > 0)
+            {
+                masterCode.setValue1(values[0]);
+            }
+            if (values.length > 1)
+            {
+                masterCode.setValue1(values[1]);
+            }
+            if (values.length > 2)
+            {
+                masterCode.setValue1(values[2]);
+            }
+            if (values.length > 3)
+            {
+                masterCode.setValue1(values[3]);
+            }
+            if (values.length > 4)
+            {
+                masterCode.setValue1(values[4]);
+            }
+        }
+        
+        masterCode.setCreator(0L);
+        masterCode.setCreateDate(new Date());
+        masterCode.setDeleteFlg(false);
+        
+        try
+        {
+            masterCodeService.insert(masterCode);
+        }
+        catch (Exception e)
+        {
+            Assert.fail("Cannot create mastercode '" + keyValue + "'");
+        }
+    }
+    
 
 	private Integer retreivePositionCode(String position) {
 		if (StringUtils.isNotEmpty(position))
@@ -139,6 +227,8 @@ public class JobPersistence
 				}
 			}
 			logger.warn(String.format("The position '%s' is not exist in MasterCode", position));
+			
+			addNewMasterCode(position, Constants.POSITION_MC, Constants.COMMON_FK);
 		}
 		else
 		{
@@ -164,6 +254,7 @@ public class JobPersistence
 				}
 			}
 			logger.warn(String.format("The location '%s' is not exist in MasterCode", location));
+			addNewMasterCode(location, Constants.LOCATION_MC, Constants.COMMON_FK);
 		}
 		else
 		{
@@ -189,6 +280,7 @@ public class JobPersistence
 				}
 			}
 			logger.warn(String.format("The dossierLanguage '%s' is not exist in MasterCode", dossierLanguage));
+			addNewMasterCode(dossierLanguage, Constants.DOSSIERLANGUAGE_MC, Constants.COMMON_FK);
 		}
 		else
 		{
@@ -210,7 +302,7 @@ public class JobPersistence
 	/**
      * Save company information. If company is existed, return the companyKey, else write new company and return the companyKey
      * @param companyInfo
-     * @return
+     * @return CompanyKey
      * @throws CrApplicationException
      */
 	private Long saveCompany(CompanyInfo companyInfo)
