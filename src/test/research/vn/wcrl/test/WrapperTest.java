@@ -21,6 +21,7 @@ import research.vn.careerservice.service.IWrapperService;
 import research.vn.careerservice.vo.Source;
 import research.vn.careerservice.vo.Wrapper;
 import research.vn.wcrl.utils.ContextLoader;
+import research.vn.wcrl.utils.FileUtils;
 
 /**
  * 
@@ -37,7 +38,6 @@ public class WrapperTest
     public static void main(String[] args)
     {
         System.out.println("============== Write wrapper to DB ==============");
-        
         Scanner sc = new Scanner(System.in);
         
         System.out.println("Input site code:");
@@ -49,7 +49,10 @@ public class WrapperTest
             System.out.println("Sitename default:'" + siteName + "'");
         }
         
-        byte[] fileContent = getFileContent(String.format("D:\\workspaces\\ofwi\\webcrawlerJob\\output\\%1$s\\%1$s00.xml", siteName));
+		String outputWrapperFolder = FileUtils.getInstance().initFoler("output.folder.wrapper", siteName);
+        String wrapperFilePath = String.format(outputWrapperFolder + File.separator + "%1$s00.xml", siteName);
+        
+        byte[] fileContent = getFileContent(wrapperFilePath);
         
         String wrapperName = siteName + "00.xml";
         Wrapper wrapper = wrapperService.selectByName(wrapperName);

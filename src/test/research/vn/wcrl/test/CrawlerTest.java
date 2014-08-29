@@ -80,12 +80,12 @@ public class CrawlerTest
                     break;
                 case 1:
                     extractor.generateWrapper(inputHtmlsFolder, siteName);
-//                    File file = new File(wrapperFilePath);
-//                    writeWrapper(siteName, file);
+                    File file = new File(wrapperFilePath);
+                    writeWrapper(siteName, file);
 
                     break;
                 case 2:
-                    // overwriteWrapper(siteName, wrapperFilePath);
+                    overwriteWrapper(siteName, wrapperFilePath);
                     File resultFolder = new File(outputResultFolder);
                     if (!resultFolder.exists())
                     {
@@ -147,6 +147,7 @@ public class CrawlerTest
 
 	private static void overwriteWrapper(String siteName, String wrapperPath)
     {
+		logger.info("Write content of '" + wrapperPath + "' to DB");
         Wrapper wrapper = wrapperService.selectByName(siteName + "00.xml");
         
         try
