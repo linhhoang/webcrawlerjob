@@ -34,9 +34,9 @@ public class DataExtractor
      *
      * @return JobInfo
      */
-    public static List<JobInfo> extract()
+    public static List<JobInfo> extract(String siteCode)
     {
-        String resultFolder = PropertyUtils.getInstance().getValue("output.folder.result");
+        String resultFolder = String.format(PropertyUtils.getInstance().getValue("output.folder.result"), siteCode);
         log.debug("Extract data from folder '" + resultFolder + "'");
         File resultFolderFile = new File(resultFolder);
         if (resultFolderFile.isDirectory())

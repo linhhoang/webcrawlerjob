@@ -7,6 +7,8 @@
  */
 package research.vn.wcrl.base.converter;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import research.vn.careerservice.vo.Job;
@@ -36,6 +38,7 @@ public class JobConverter extends AbstractConverter<JobInfo, Job>
         job.setQuantity(jobInfo.getQuantity());
         job.setSalary(jobInfo.getSalary());
         job.setContactString(jobInfo.getContactString());
+        job.setPostDate(new Date());
 
         return job;
     }

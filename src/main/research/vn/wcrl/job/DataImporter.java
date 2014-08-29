@@ -16,7 +16,6 @@ import org.quartz.JobExecutionException;
 
 import research.vn.careerservice.base.exception.CrException;
 import research.vn.wcrl.DataExtractor;
-import research.vn.wcrl.JobImporter;
 import research.vn.wcrl.JobPersistence;
 import research.vn.wcrl.bo.JobInfo;
 import research.vn.wcrl.utils.ContextLoader;
@@ -39,7 +38,7 @@ public class DataImporter implements Job
     	log.info("Start dataImporter job.");
     	
     	log.info("Extracting job information..");
-        List<JobInfo> jobInfoList = DataExtractor.extract();
+        List<JobInfo> jobInfoList = DataExtractor.extract("VNWs"); // TODO: setting siteCode
         
         if (jobInfoList != null && jobInfoList.size() > 0)
         {

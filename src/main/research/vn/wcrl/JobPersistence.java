@@ -87,7 +87,7 @@ public class JobPersistence
             jobVo.setPosition(retreivePositionCode(jobInfo.getPosition()));
             jobVo.setLocation(retreiveLocationCode(jobInfo.getLocation()));
 			jobVo.setDossierLanguage(retrieveDossierLanguageCode(jobInfo.getDossierLanguage()));
-			
+			jobVo.setReferenceKey(referenceById.getKey());
             jobVo.setCompanyKey(companyKey);
             try
             {
@@ -110,14 +110,17 @@ public class JobPersistence
 		{
 			Map<Integer, String> workingTypeMap = ConfigurationUtils.getInstance().getWorkingTypeMap();
 			
-			Set<Entry<Integer, String>> entrySet = workingTypeMap.entrySet();
-			
-			if (!CollectionUtils.isEmpty(entrySet))
+			if (workingTypeMap != null)
 			{
-				for (Entry<Integer, String> entry : entrySet) {
-					if (workingType.equals(entry.getValue()))
-					{
-						return entry.getKey();
+				Set<Entry<Integer, String>> entrySet = workingTypeMap.entrySet();
+				
+				if (!CollectionUtils.isEmpty(entrySet))
+				{
+					for (Entry<Integer, String> entry : entrySet) {
+						if (workingType.equals(entry.getValue()))
+						{
+							return entry.getKey();
+						}
 					}
 				}
 			}
@@ -215,14 +218,17 @@ public class JobPersistence
 		if (StringUtils.isNotEmpty(position))
 		{
 			Map<Integer, String> positionMap = ConfigurationUtils.getInstance().getPositionMap();
-			Set<Entry<Integer, String>> entrySet = positionMap.entrySet();
-			
-			if (!CollectionUtils.isEmpty(entrySet))
+			if (positionMap != null)
 			{
-				for (Entry<Integer, String> entry : entrySet) {
-					if (position.equals(entry.getValue()))
-					{
-						return entry.getKey();
+				Set<Entry<Integer, String>> entrySet = positionMap.entrySet();
+				
+				if (!CollectionUtils.isEmpty(entrySet))
+				{
+					for (Entry<Integer, String> entry : entrySet) {
+						if (position.equals(entry.getValue()))
+						{
+							return entry.getKey();
+						}
 					}
 				}
 			}
@@ -242,14 +248,17 @@ public class JobPersistence
 		if (StringUtils.isNotEmpty(location))
 		{
 			Map<Integer, String> locationMap = ConfigurationUtils.getInstance().getLocationMap();
-			Set<Entry<Integer, String>> entrySet = locationMap.entrySet();
-			
-			if (!CollectionUtils.isEmpty(entrySet))
+			if (locationMap != null)
 			{
-				for (Entry<Integer, String> entry : entrySet) {
-					if (location.equals(entry.getValue()))
-					{
-						return entry.getKey();
+				Set<Entry<Integer, String>> entrySet = locationMap.entrySet();
+				
+				if (!CollectionUtils.isEmpty(entrySet))
+				{
+					for (Entry<Integer, String> entry : entrySet) {
+						if (location.equals(entry.getValue()))
+						{
+							return entry.getKey();
+						}
 					}
 				}
 			}
@@ -268,14 +277,17 @@ public class JobPersistence
 		if (StringUtils.isNotEmpty(dossierLanguage))
 		{
 			Map<Integer, String> dossierLanguageMap = ConfigurationUtils.getInstance().getDossierLanguageMap();
-			Set<Entry<Integer, String>> entrySet = dossierLanguageMap.entrySet();
-			
-			if (!CollectionUtils.isEmpty(entrySet))
+			if (dossierLanguageMap != null)
 			{
-				for (Entry<Integer, String> entry : entrySet) {
-					if (dossierLanguage.equals(entry.getValue()))
-					{
-						return entry.getKey();
+				Set<Entry<Integer, String>> entrySet = dossierLanguageMap.entrySet();
+				
+				if (!CollectionUtils.isEmpty(entrySet))
+				{
+					for (Entry<Integer, String> entry : entrySet) {
+						if (dossierLanguage.equals(entry.getValue()))
+						{
+							return entry.getKey();
+						}
 					}
 				}
 			}
