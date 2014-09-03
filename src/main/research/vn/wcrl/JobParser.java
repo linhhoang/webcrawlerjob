@@ -7,9 +7,10 @@
  */
 package research.vn.wcrl;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,8 +60,8 @@ public class JobParser
             xr.setContentHandler(jobParser);
 
             // Parse the file...
-            
-            xr.parse(new InputSource(new FileReader(filePath)));
+            InputSource inputSource = new InputSource(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
+            xr.parse(inputSource);
         }
         catch (SAXException e)
         {

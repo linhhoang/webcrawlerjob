@@ -24,6 +24,7 @@ import org.testng.Assert;
 import research.vn.careerservice.base.exception.CrApplicationException;
 import research.vn.careerservice.base.exception.CrException;
 import research.vn.careerservice.bo.CompanyFilter;
+import research.vn.careerservice.bo.MasterCodeFilter;
 import research.vn.careerservice.bo.MasterCodePK;
 import research.vn.careerservice.service.ICompanyService;
 import research.vn.careerservice.service.IJobService;
@@ -89,6 +90,7 @@ public class JobPersistence
 			jobVo.setDossierLanguage(retrieveDossierLanguageCode(jobInfo.getDossierLanguage()));
 			jobVo.setReferenceKey(referenceById.getKey());
             jobVo.setCompanyKey(companyKey);
+            jobVo.setCreator(0L);
             try
             {
                 jobService.insert(jobVo);
@@ -170,47 +172,59 @@ public class JobPersistence
                             String description,
                             String... values)
     {
-        MasterCode masterCode = new MasterCode();
-        masterCode.setKeyValue(keyValue);
-        masterCode.setSequence(sequence);
-        masterCode.setFunctionKey(functionKey);
-        masterCode.setDescription(description);
-        if (values != null)
+		MasterCodeFilter masterCodeFilter = new MasterCodeFilter();
+		masterCodeFilter.setKeyValue(keyValue);
+		masterCodeFilter.setFunctionKey(functionKey);
+		if (values.length > 0)
         {
-            if (values.length > 0)
-            {
-                masterCode.setValue1(values[0]);
-            }
-            if (values.length > 1)
-            {
-                masterCode.setValue1(values[1]);
-            }
-            if (values.length > 2)
-            {
-                masterCode.setValue1(values[2]);
-            }
-            if (values.length > 3)
-            {
-                masterCode.setValue1(values[3]);
-            }
-            if (values.length > 4)
-            {
-                masterCode.setValue1(values[4]);
-            }
+			masterCodeFilter.setValue1(values[0]);
         }
-        
-        masterCode.setCreator(0L);
-        masterCode.setCreateDate(new Date());
-        masterCode.setDeleteFlg(false);
-        
-        try
-        {
-            masterCodeService.insert(masterCode);
-        }
-        catch (Exception e)
-        {
-            Assert.fail("Cannot create mastercode '" + keyValue + "'");
-        }
+		
+		List<MasterCode> masterCodeList = masterCodeService.search(masterCodeFilter);
+		if (CollectionUtils.isEmpty(masterCodeList))
+		{
+			MasterCode masterCode = new MasterCode();
+	        masterCode.setKeyValue(keyValue);
+	        masterCode.setSequence(sequence);
+	        masterCode.setFunctionKey(functionKey);
+	        masterCode.setDescription(description);
+	        if (values != null)
+	        {
+	            if (values.length > 0)
+	            {
+	                masterCode.setValue1(values[0]);
+	            }
+	            if (values.length > 1)
+	            {
+	                masterCode.setValue1(values[1]);
+	            }
+	            if (values.length > 2)
+	            {
+	                masterCode.setValue1(values[2]);
+	            }
+	            if (values.length > 3)
+	            {
+	                masterCode.setValue1(values[3]);
+	            }
+	            if (values.length > 4)
+	            {
+	                masterCode.setValue1(values[4]);
+	            }
+	        }
+	        
+	        masterCode.setCreator(0L);
+	        masterCode.setCreateDate(new Date());
+	        masterCode.setDeleteFlg(false);
+	        
+	        try
+	        {
+	            masterCodeService.insert(masterCode);
+	        }
+	        catch (Exception e)
+	        {
+	            Assert.fail("Cannot create mastercode '" + keyValue + "'");
+	        }
+		}
     }
     
 
