@@ -150,19 +150,27 @@ public class CrawlerTest
 		logger.info("Write content of '" + wrapperPath + "' to DB");
         Wrapper wrapper = wrapperService.selectByName(siteName + "00.xml");
         
-        try
+        if (wrapper != null)
         {
-            FileOutputStream fos = new FileOutputStream(wrapperPath);
-            fos.write(wrapper.getContent().getBytes());
-            fos.close();
+        	try
+        	{
+        		FileOutputStream fos = new FileOutputStream(wrapperPath);
+        		fos.write(wrapper.getContent().getBytes());
+        		fos.close();
+        	}
+        	catch (FileNotFoundException e)
+        	{
+        		logger.error("Error occurred: " + e.getMessage(), e);
+        	}
+        	catch (IOException e)
+        	{
+        		logger.error("Error occurred: " + e.getMessage(), e);
+        	}
         }
-        catch (FileNotFoundException e)
+        else
         {
-            logger.error("Error occurred: " + e.getMessage(), e);
-        }
-        catch (IOException e)
-        {
-            logger.error("Error occurred: " + e.getMessage(), e);
+        	File wrapperFile = new File(wrapperPath);
+        	writeWrapper(siteName, wrapperFile);
         }
     }
 }
