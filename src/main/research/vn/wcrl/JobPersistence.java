@@ -7,6 +7,7 @@
  */
 package research.vn.wcrl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -84,8 +85,8 @@ public class JobPersistence
             IConverter<JobInfo, research.vn.careerservice.vo.Job> jobConverter = new JobConverter();
             research.vn.careerservice.vo.Job jobVo = jobConverter.convert(jobInfo);
             
-            jobVo.setWorkingType(retreiveWorkingTypeCode(jobInfo.getWorkingType()));
-            jobVo.setPosition(retreivePositionCode(jobInfo.getPosition()));
+            jobVo.setWorkingType(jobInfo.getWorkingType());
+            jobVo.setPosition(jobInfo.getPosition());
             jobVo.setLocation(retreiveLocationCode(jobInfo.getLocation()));
 			jobVo.setDossierLanguage(retrieveDossierLanguageCode(jobInfo.getDossierLanguage()));
 			jobVo.setReferenceKey(referenceById.getKey());
@@ -107,6 +108,7 @@ public class JobPersistence
     }
 
 
+	@SuppressWarnings("unused")
 	private Integer retreiveWorkingTypeCode(String workingType) {
 		if (StringUtils.isNotEmpty(workingType))
 		{
@@ -228,6 +230,7 @@ public class JobPersistence
     }
     
 
+	@SuppressWarnings("unused")
 	private Integer retreivePositionCode(String position) {
 		if (StringUtils.isNotEmpty(position))
 		{
@@ -258,32 +261,63 @@ public class JobPersistence
 	}
 
 
-	private Integer retreiveLocationCode(String location) {
-		if (StringUtils.isNotEmpty(location))
+	private List<Integer> retreiveLocationCode(String locations) {
+		List<Integer> locationList = new ArrayList<Integer>();
+		if (StringUtils.isNotEmpty(locations))
 		{
-			Map<Integer, String> locationMap = ConfigurationUtils.getInstance().getLocationMap();
-			if (locationMap != null)
+			Map<Integer, String> locationMap1 = ConfigurationUtils.getInstance().getLocationMap1();
+			if (locationMap1 != null)
 			{
-				Set<Entry<Integer, String>> entrySet = locationMap.entrySet();
+				Set<Entry<Integer, String>> entrySet = locationMap1.entrySet();
 				
 				if (!CollectionUtils.isEmpty(entrySet))
 				{
 					for (Entry<Integer, String> entry : entrySet) {
-						if (location.equals(entry.getValue()))
+						if (locations.contains(entry.getValue()))
 						{
-							return entry.getKey();
+							locationList.add(entry.getKey());
 						}
 					}
 				}
 			}
-			logger.warn(String.format("The location '%s' is not exist in MasterCode", location));
-			addNewMasterCode(location, Constants.LOCATION_MC, Constants.COMMON_FK);
+			Map<Integer, String> locationMap2 = ConfigurationUtils.getInstance().getLocationMap1();
+			if (locationMap2 != null)
+			{
+				Set<Entry<Integer, String>> entrySet = locationMap2.entrySet();
+				
+				if (!CollectionUtils.isEmpty(entrySet))
+				{
+					for (Entry<Integer, String> entry : entrySet) {
+						if (locations.contains(entry.getValue()))
+						{
+							locationList.add(entry.getKey());
+						}
+					}
+				}
+			}
+			Map<Integer, String> locationMap3 = ConfigurationUtils.getInstance().getLocationMap1();
+			if (locationMap3 != null)
+			{
+				Set<Entry<Integer, String>> entrySet = locationMap3.entrySet();
+				
+				if (!CollectionUtils.isEmpty(entrySet))
+				{
+					for (Entry<Integer, String> entry : entrySet) {
+						if (locations.contains(entry.getValue()))
+						{
+							locationList.add(entry.getKey());
+						}
+					}
+				}
+			}
+			logger.warn(String.format("The location '%s' is not exist in MasterCode", locations));
+			addNewMasterCode(locations, Constants.LOCATION_MC, Constants.COMMON_FK);
 		}
 		else
 		{
 			logger.warn("The location '%s' is null or empty");
 		}
-		return null;
+		return locationList;
 	}
 
 
@@ -320,6 +354,7 @@ public class JobPersistence
 		updateReference.setExtractedFlg(true);
 		updateReference.setUpdater(0L);
 		updateReference.setUpdateDate(new Date());
+		updateReference.setDeleteFlg(false);
 		referenceService.update(updateReference);
 		logger.info("The reference status has been update to 'EXTRACTED'");
 	}
