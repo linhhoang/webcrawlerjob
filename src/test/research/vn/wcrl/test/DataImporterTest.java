@@ -10,6 +10,7 @@ package research.vn.wcrl.test;
 import org.apache.log4j.Logger;
 import org.quartz.JobExecutionException;
 
+import research.vn.careerservice.utils.ConfigurationUtils;
 import research.vn.wcrl.job.DataImporter;
 
 /**

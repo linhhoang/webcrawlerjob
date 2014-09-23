@@ -9,6 +9,7 @@ package research.vn.wcrl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -107,6 +108,37 @@ public class JobPersistence
         
     }
 
+    
+    private Map<Integer, String> initLocationMap(int mapType) {
+		MasterCodeFilter masterCodeFilter = new MasterCodeFilter();
+    	masterCodeFilter.setKeyValue(Constants.LOCATION_MC);
+    	masterCodeFilter.setFunctionKey(Constants.COMMON_FK);
+		List<MasterCode> masterCodeList = masterCodeService.search(masterCodeFilter);
+		
+		Map<Integer, String> locationMaps = null;
+		
+		if (!CollectionUtils.isEmpty(masterCodeList))
+		{
+			locationMaps = new HashMap<Integer, String>();
+			for (MasterCode masterCode : masterCodeList) {
+				if (mapType == 1 && StringUtils.isNotEmpty(masterCode.getValue1()))
+				{
+					locationMaps.put(masterCode.getSequence(), masterCode.getValue1());
+				}
+				else if (mapType == 2 && StringUtils.isNotEmpty(masterCode.getValue2()))
+				{
+					locationMaps.put(masterCode.getSequence(), masterCode.getValue2());
+				}
+				else if (mapType == 3 && StringUtils.isNotEmpty(masterCode.getValue3()))
+				{
+					locationMaps.put(masterCode.getSequence(), masterCode.getValue3());
+				}
+			}
+		}
+		
+		return locationMaps;
+	}
+    
 
 	@SuppressWarnings("unused")
 	private Integer retreiveWorkingTypeCode(String workingType) {
@@ -265,7 +297,7 @@ public class JobPersistence
 		List<Integer> locationList = new ArrayList<Integer>();
 		if (StringUtils.isNotEmpty(locations))
 		{
-			Map<Integer, String> locationMap1 = ConfigurationUtils.getInstance().getLocationMap1();
+			Map<Integer, String> locationMap1 = initLocationMap(1);
 			if (locationMap1 != null)
 			{
 				Set<Entry<Integer, String>> entrySet = locationMap1.entrySet();
@@ -280,7 +312,7 @@ public class JobPersistence
 					}
 				}
 			}
-			Map<Integer, String> locationMap2 = ConfigurationUtils.getInstance().getLocationMap1();
+			Map<Integer, String> locationMap2 = initLocationMap(2);
 			if (locationMap2 != null)
 			{
 				Set<Entry<Integer, String>> entrySet = locationMap2.entrySet();
@@ -295,7 +327,7 @@ public class JobPersistence
 					}
 				}
 			}
-			Map<Integer, String> locationMap3 = ConfigurationUtils.getInstance().getLocationMap1();
+			Map<Integer, String> locationMap3 = initLocationMap(3);
 			if (locationMap3 != null)
 			{
 				Set<Entry<Integer, String>> entrySet = locationMap3.entrySet();

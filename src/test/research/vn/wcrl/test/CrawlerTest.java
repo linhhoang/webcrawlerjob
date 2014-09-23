@@ -126,14 +126,20 @@ public class CrawlerTest
 		        return;
 		    }
 		    
-		    Wrapper wrapperInsert = new Wrapper();
-		    wrapperInsert.setCreator(0L);
-		    wrapperInsert.setSourceKey(source.getKey());
-		    wrapperInsert.setCreateDate(new Date());
-		    wrapperInsert.setWrapperName(siteName + "00.xml");
-		    wrapperInsert.setDeleteFlg(false);
-		    wrapperInsert.setContent(new String(fileContent));
-		    wrapperService.insert(wrapperInsert);
+		    Wrapper wrapper = wrapperService.selectByName(siteName + "00.xml");
+		    
+		    if (wrapper == null)
+		    {
+		    	Wrapper wrapperInsert = new Wrapper();
+		    	wrapperInsert.setCreator(0L);
+		    	wrapperInsert.setSourceKey(source.getKey());
+		    	wrapperInsert.setCreateDate(new Date());
+		    	wrapperInsert.setWrapperName(siteName + "00.xml");
+		    	wrapperInsert.setDeleteFlg(false);
+		    	wrapperInsert.setContent(new String(fileContent));
+		    	wrapperService.insert(wrapperInsert);
+		    }
+		    
 		}
 		catch (FileNotFoundException e1)
 		{
