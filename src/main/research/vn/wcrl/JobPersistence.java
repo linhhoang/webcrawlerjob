@@ -305,7 +305,7 @@ public class JobPersistence
 				if (!CollectionUtils.isEmpty(entrySet))
 				{
 					for (Entry<Integer, String> entry : entrySet) {
-						if (locations.contains(entry.getValue()))
+						if (locations.contains(entry.getValue()) && !locationList.contains(entry.getKey()))
 						{
 							locationList.add(entry.getKey());
 						}
@@ -320,7 +320,7 @@ public class JobPersistence
 				if (!CollectionUtils.isEmpty(entrySet))
 				{
 					for (Entry<Integer, String> entry : entrySet) {
-						if (locations.contains(entry.getValue()))
+						if (locations.contains(entry.getValue()) && !locationList.contains(entry.getKey()))
 						{
 							locationList.add(entry.getKey());
 						}
@@ -335,7 +335,7 @@ public class JobPersistence
 				if (!CollectionUtils.isEmpty(entrySet))
 				{
 					for (Entry<Integer, String> entry : entrySet) {
-						if (locations.contains(entry.getValue()))
+						if (locations.contains(entry.getValue()) && !locationList.contains(entry.getKey()))
 						{
 							locationList.add(entry.getKey());
 						}
@@ -403,7 +403,7 @@ public class JobPersistence
 		Long companyKey = null;
         CompanyFilter companyfilter = new CompanyFilter();
         companyfilter.setCompanyName(companyInfo.getCompanyName());
-        companyfilter.setCompanyAddress(companyInfo.getCompanyAddress());
+//        companyfilter.setCompanyAddress(companyInfo.getCompanyAddress());
         try
         {
             List<Company> companyList = companyService.search(companyfilter);

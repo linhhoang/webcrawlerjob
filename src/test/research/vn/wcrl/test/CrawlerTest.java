@@ -85,7 +85,7 @@ public class CrawlerTest
 
                     break;
                 case 2:
-                    overwriteWrapper(siteName, wrapperFilePath);
+//                    overwriteWrapper(siteName, wrapperFilePath);
                     File resultFolder = new File(outputResultFolder);
                     if (!resultFolder.exists())
                     {
@@ -138,6 +138,14 @@ public class CrawlerTest
 		    	wrapperInsert.setDeleteFlg(false);
 		    	wrapperInsert.setContent(new String(fileContent));
 		    	wrapperService.insert(wrapperInsert);
+		    }
+		    else
+		    {
+		    	wrapper.setUpdater(0L);
+		    	wrapper.setUpdateDate(new Date());
+		    	wrapper.setDeleteFlg(false);
+		    	wrapper.setContent(new String(fileContent));
+		    	wrapperService.update(wrapper);
 		    }
 		    
 		}
